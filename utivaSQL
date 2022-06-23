@@ -1,0 +1,89 @@
+select *
+from public.film
+limit 10;
+
+select distinct rental_duration
+from public.film;
+
+select distinct release_year,rental_duration
+from public.film;
+
+--1.Display unique rental_duration for films that starts with letter C
+
+select distinct rental_duration
+from public.film
+where title like 'C%'
+
+select distinct *
+from public.film;
+
+--1. count function
+select count (*)
+from public.film;
+select count (rental_duration)
+from public.film;
+
+select count(title) as film_count, count(release_year) as count_of_release_year
+from public.film;
+
+select count(distinct title) as count_of_unique_year, count(distinct release_year) as count_of_unique_year
+from public.film;
+select sum(rental_duration) as total_rental_duration
+from public.film;
+
+select min(rental_duration) as lowest_rental_duration
+from public.film;
+
+select max(rental_duration) as highest_rental_duration
+from public.film;
+
+select sum(rental_duration) as total_duration, min(rental_duration) as lowest_duration, max(rental_duration) as highest_duration, avg(rental_duration) as average_duration
+from public.film;
+
+select sum(amount) as total_payment
+from public.payment;
+
+select *
+from public.payment
+
+--display total amount paid by each customer in the payment table
+---groupby statement
+
+select customer_id, sum(amount) as total_amount, min(amount) as lowest_payment, max(amount) as highest_payment, avg(amount) as average_amount
+from public.payment
+group by customer_id
+order by customer_id;
+
+select customer_id, count(amount) as counts_of_payments
+from public.payment
+group by customer_id
+
+select customer_id, sum(amount) as total_amount, count(amount) as count_of_payments
+from public.payment
+group by customer_id
+order by customer_id desc;
+
+--generate a report that shows the distinct customers in the payment table
+
+select distinct customer_id
+from public.payment
+
+
+
+select *,
+case when amount >=5 then 'High Value customer'
+when amount between 1 and 4.99 then 'Bronze Customer'
+when amount <1 then 'Low value customer'
+else 'NA'
+end Status
+from public.payment
+
+select * from
+(select *,
+case when amount >=5 then 'High Value customer'
+when amount between 1 and 4.99 then 'Bronze Customer'
+when amount <1 then 'Low value customer'
+else 'NA'
+end Status
+from public.payment) s
+where Status='High Value customer'
